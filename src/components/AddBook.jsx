@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
-import axiosInstance from '../api/axiosInstance';
+import { Form, Button, Container, Card } from 'react-bootstrap';
+import api from '../api/api';
 
 const AddBook = () => {
   const [title, setTitle] = useState('');
@@ -10,7 +10,7 @@ const AddBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.post('/books', { title, author, total_count: totalCount });
+      await api.post('/books', { title, author, total_count: totalCount });
       alert('Книга успешно добавлена!');
       setTitle('');
       setAuthor('');
@@ -21,40 +21,44 @@ const AddBook = () => {
   };
 
   return (
-    <Container>
-      <h2>Добавить новую книгу</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="title">
-          <Form.Label>Название</Form.Label>
-          <Form.Control
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="author">
-          <Form.Label>Автор</Form.Label>
-          <Form.Control
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="totalCount">
-          <Form.Label>Количество</Form.Label>
-          <Form.Control
-            type="number"
-            value={totalCount}
-            onChange={(e) => setTotalCount(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Добавить
-        </Button>
-      </Form>
+    <Container className='my-4'>
+      <Card>
+        <Card.Header>Добавить новую книгу</Card.Header>
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="title" className='mb-3'>
+              <Form.Label>Название</Form.Label>
+              <Form.Control
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="author" className='mb-3'>
+              <Form.Label>Автор</Form.Label>
+              <Form.Control
+                type="text"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="totalCount" className='mb-3'>
+              <Form.Label>Количество</Form.Label>
+              <Form.Control
+                type="number"
+                value={totalCount}
+                onChange={(e) => setTotalCount(e.target.value)}
+                required
+              />
+            </Form.Group>
+            <Button type="submit">
+              Добавить
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };

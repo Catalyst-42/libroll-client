@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
-import axiosInstance from '../api/axiosInstance';
+import api from '../api/api';
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('');
@@ -9,7 +9,7 @@ const AddUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.post('/users', { first_name: firstName, last_name: lastName });
+      await api.post('/users', { first_name: firstName, last_name: lastName });
       alert('Пользователь успешно добавлен!');
       setFirstName('');
       setLastName('');

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Container, Button } from 'react-bootstrap';
-import axiosInstance from '../api/axiosInstance';
+import api from '../api/api';
 
 const BorrowedBooksList = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
@@ -12,15 +12,15 @@ const BorrowedBooksList = () => {
     const fetchData = async () => {
       try {
         // Получаем список взятых книг
-        const borrowedResponse = await axiosInstance.get('/borrowed-books');
+        const borrowedResponse = await api.get('/borrowed-books');
         setBorrowedBooks(borrowedResponse.data);
 
         // Получаем список всех книг
-        const booksResponse = await axiosInstance.get('/books');
+        const booksResponse = await api.get('/books');
         setBooks(booksResponse.data);
 
         // Получаем список всех пользователей
-        const usersResponse = await axiosInstance.get('/users');
+        const usersResponse = await api.get('/users');
         setUsers(usersResponse.data);
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
@@ -32,7 +32,7 @@ const BorrowedBooksList = () => {
   // Функция для возврата книги
   const handleReturnBook = async (id) => {
     try {
-      await axiosInstance.put(`/borrowed-books/${id}/return`);
+      await api.put(`/borrowed-books/${id}/return`);
       // Обновляем список после успешного возврата
       const updatedBooks = borrowedBooks.map((book) =>
         book.id === id ? { ...book, status: 'returned' } : book

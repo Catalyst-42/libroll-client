@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Container } from 'react-bootstrap';
-import axiosInstance from '../api/axiosInstance';
+import api from '../api/api';
 
 const BooksList = () => {
   const [books, setBooks] = useState([]);
@@ -8,7 +8,7 @@ const BooksList = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axiosInstance.get('/books');
+        const response = await api.get('/books');
         setBooks(response.data);
       } catch (error) {
         console.error('Ошибка при загрузке списка книг:', error);

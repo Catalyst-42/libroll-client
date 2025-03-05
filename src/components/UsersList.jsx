@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Container } from 'react-bootstrap';
-import axiosInstance from '../api/axiosInstance';
+import api from '../api/api';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +8,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axiosInstance.get('/users');
+        const response = await api.get('/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Ошибка при загрузке списка пользователей:', error);

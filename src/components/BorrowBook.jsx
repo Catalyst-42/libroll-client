@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import axiosInstance from '../api/axiosInstance';
+import api from '../api/api';
 
 const BorrowBook = () => {
   const [books, setBooks] = useState([]);
@@ -13,8 +13,8 @@ const BorrowBook = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const booksResponse = await axiosInstance.get('/books');
-        const usersResponse = await axiosInstance.get('/users');
+        const booksResponse = await api.get('/books');
+        const usersResponse = await api.get('/users');
         setBooks(booksResponse.data);
         setUsers(usersResponse.data);
       } catch (error) {
@@ -47,7 +47,7 @@ const BorrowBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.post('/borrowed-books', {
+      await api.post('/borrowed-books', {
         book_id: bookId,
         user_id: userId,
         borrow_date: borrowDate,
