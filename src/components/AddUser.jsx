@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Card } from 'react-bootstrap';
 import api from '../api/api';
 
 const AddUser = () => {
@@ -19,32 +19,36 @@ const AddUser = () => {
   };
 
   return (
-    <Container>
-      <h2>Добавить нового пользователя</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="firstName">
-          <Form.Label>Имя</Form.Label>
-          <Form.Control
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="lastName">
-          <Form.Label>Фамилия</Form.Label>
-          <Form.Control
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Добавить
-        </Button>
-      </Form>
-    </Container>
+    <Card className='my-4'>
+      <Card.Header>
+        Добавить нового пользователя
+      </Card.Header>
+      <Card.Body>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="firstName" className='mb-3'>
+            <Form.Label>Имя</Form.Label>
+            <Form.Control
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="lastName" className='mb-3'>
+            <Form.Label>Фамилия</Form.Label>
+            <Form.Control
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Добавить
+          </Button>
+        </Form>
+      </Card.Body>
+    </Card>
   );
 };
 

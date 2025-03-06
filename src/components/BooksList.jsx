@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Container } from 'react-bootstrap';
+import { Table, Card } from 'react-bootstrap';
 import api from '../api/api';
 
 const BooksList = () => {
@@ -18,15 +18,16 @@ const BooksList = () => {
   }, []);
 
   return (
-    <Container>
-      <h2>Список всех книг</h2>
-      <Table striped bordered hover>
+    <Card className='my-4'>
+      <Card.Header>Список всех книг</Card.Header>
+      <Card.Body>
+      <Table>
         <thead>
           <tr>
             <th>#</th>
             <th>Название</th>
             <th>Автор</th>
-            <th>Количество</th>
+            <th>Книг</th>
           </tr>
         </thead>
         <tbody>
@@ -40,7 +41,8 @@ const BooksList = () => {
           ))}
         </tbody>
       </Table>
-    </Container>
+      </Card.Body>
+    </Card>
   );
 };
 

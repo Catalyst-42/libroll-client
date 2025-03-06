@@ -17,7 +17,7 @@ import BorrowedBooksList from './components/BorrowedBooksList';
 const App = () => {
   return (
     <BrowserRouter>
-      <Container className="col-lg-8 mx-auto p-4 py-md-5">
+      <Container className="col-lg-10 mx-auto p-4 py-md-5">
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
