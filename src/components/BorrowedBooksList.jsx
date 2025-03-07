@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import api from '../api/api';
 
 const BorrowedBooksList = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
+  const token = useSelector((state) => state.auth.token);
 
   // Fetch all
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const borrowedResponse = await api.get('/borrowed-books');
+        const borrowedResponse = await api.get('/borrowed-books', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setBorrowedBooks(borrowedResponse.data);
 
-        const booksResponse = await api.get('/books');
+        const booksResponse = await api.get('/books', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setBooks(booksResponse.data);
 
-        const usersResponse = await api.get('/users');
+        const usersResponse = await api.get('/users', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setUsers(usersResponse.data);
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
       }
     };
     fetchData();
-  }, []);
+  }, [token]);
 
   const handleReturnBook = async (id) => {
     try {
-      await api.put(`/borrowed-books/${id}/return`);
+      await api.put(`/borrowed-books/${id}/return`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       
       // Update list
       const updatedBooks = borrowedBooks.map(

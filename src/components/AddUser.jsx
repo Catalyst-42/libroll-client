@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import api from '../api/api';
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const token = useSelector((state) => state.auth.token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/users', { first_name: firstName, last_name: lastName });
+      await api.post('/users', { first_name: firstName, last_name: lastName }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       alert('Пользователь успешно добавлен!');
       setFirstName('');
       setLastName('');
