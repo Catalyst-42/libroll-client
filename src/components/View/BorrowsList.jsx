@@ -12,6 +12,7 @@ const BorrowsList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const token = useSelector((state) => state.auth.token);
 
   // Fetch all
@@ -80,71 +81,69 @@ const BorrowsList = () => {
 
   return (
     <>
-      <Card className='my-4'>
-        <Card.Header>Фильтры</Card.Header>
-        <Card.Body>
-          <Form className="mb-3">
-            <Row>
-              <Form.Group as={Col} controlId="search">
-                <Form.Label>Имена</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Книга или пользователь"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group as={Col} controlId="filterStatus">
-                <Form.Label>Статус</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                >
-                  <option value="">Все</option>
-                  <option value="active">Активные</option>
-                  <option value="returned">Возвращенные</option>
-                </Form.Control>
-              </Form.Group>
-            </Row>
-          </Form>
-        </Card.Body>
-      </Card>
+      {/* Filters */}
+      <Row className='my-4'>
+        <Form.Group as={Col} controlId="search">
+          <Form.Label>Имя</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Книга или пользователь"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group as={Col} controlId="filterStatus">
+          <Form.Label>Статус</Form.Label>
+          <Form.Control
+            as="select"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">Все</option>
+            <option value="active">Активные</option>
+            <option value="returned">Возвращенные</option>
+          </Form.Control>
+        </Form.Group>
+      </Row>
+
+      <hr />
+
+      {/* Taken books list */}
       <Card className='my-4'>
         <Card.Header>Список взятых книг</Card.Header>
         <Card.Body>
           <Table>
             <thead>
               <tr>
-                <th>#</th>
                 <th>Книга</th>
                 <th>Пользователь</th>
                 <th>Дата взятия</th>
                 <th>Дата возврата</th>
                 <th>Статус</th>
-                <th>Действия</th>
+                {isAuthenticated && <th>Действия</th>}
               </tr>
             </thead>
             <tbody>
               {filteredBooks.map((book, index) => (
                 <tr key={book.id}>
-                  <td>{index + 1}</td>
                   <td>{getBookTitle(book.book_id)}</td>
                   <td>{getUserName(book.user_id)}</td>
                   <td>{formatDate(book.borrow_date)}</td>
                   <td>{formatDate(book.return_date)}</td>
-                  <td>{book.status}</td>
-                  <td>
-                    {book.status === 'active' && (
-                      <Button
-                        variant="success"
-                        size="sm"
-                        onClick={() => handleReturnBook(book.id)}
-                      >
-                        Возвращена
-                      </Button>
-                    )}
-                  </td>
+                  <td>{book.status === "returned" ? "Возвращена" : "На руках"}</td>
+                  {isAuthenticated &&
+                    <td>
+                      {book.status === 'active' && (
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={() => handleReturnBook(book.id)}
+                        >
+                          Возвращена
+                        </Button>
+                      )}
+                    </td>
+                  }
                 </tr>
               ))}
             </tbody>
