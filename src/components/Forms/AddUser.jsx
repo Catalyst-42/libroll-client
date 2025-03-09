@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Card } from 'react-bootstrap';
+import { Button, Card, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import api from '../api/api';
+
+import api from '../../api/api';
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('');

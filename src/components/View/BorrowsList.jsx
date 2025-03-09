@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Button, Card } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import api from '../api/api';
 
-const BorrowedBooksList = () => {
+import api from '../../api/api';
+
+const BorrowsList = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
@@ -13,25 +14,13 @@ const BorrowedBooksList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const borrowedResponse = await api.get('/borrowed-books', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const borrowedResponse = await api.get('/borrows');
         setBorrowedBooks(borrowedResponse.data);
 
-        const booksResponse = await api.get('/books', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const booksResponse = await api.get('/books');
         setBooks(booksResponse.data);
 
-        const usersResponse = await api.get('/users', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const usersResponse = await api.get('/users');
         setUsers(usersResponse.data);
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
@@ -42,7 +31,7 @@ const BorrowedBooksList = () => {
 
   const handleReturnBook = async (id) => {
     try {
-      await api.put(`/borrowed-books/${id}/return`, {}, {
+      await api.put(`/borrows/${id}/return`, {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -112,9 +101,8 @@ const BorrowedBooksList = () => {
           </tbody>
         </Table>
       </Card.Body>
-
     </Card>
   );
 };
 
-export default BorrowedBooksList;
+export default BorrowsList;

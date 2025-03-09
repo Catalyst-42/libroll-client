@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Card } from 'react-bootstrap';
-import api from '../api/api';
+import React, { useEffect, useState } from 'react';
+import { Card, Table } from 'react-bootstrap';
+
+import api from '../../api/api';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);

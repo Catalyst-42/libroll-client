@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Container, Row, Col, Card, InputGroup } from 'react-bootstrap';
-import api from '../api/api';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 
-const BorrowBook = () => {
+import api from '../../api/api';
+
+const AddBorrow = () => {
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
   const [bookId, setBookId] = useState('');
@@ -55,7 +56,7 @@ const BorrowBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/borrowed-books', {
+      await api.post('/borrows', {
         book_id: bookId,
         user_id: userId,
         borrow_date: borrowDate,
@@ -118,7 +119,7 @@ const BorrowBook = () => {
             </Form.Control>
           </Form.Group>
 
-          {/* Borrow create and return dates */}
+          {/* Borrow take and return dates */}
           <Row>
             <Form.Group as={Col} controlId="borrowDate" className='mt-3' style={{ minWidth: '30ch' }}>
               <Form.Label>Дата взятия</Form.Label>
@@ -163,4 +164,4 @@ const BorrowBook = () => {
   );
 };
 
-export default BorrowBook;
+export default AddBorrow;

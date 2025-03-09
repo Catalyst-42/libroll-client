@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Container} from 'react-bootstrap';
-import api from '../api/api';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+
+import api from '../../api/api';
 
 const HomePage = () => {
   const [stats, setStats] = useState({});
@@ -19,7 +20,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <Container>
+    <Container className='px-0'>
       <h5 className='mt-3 mb-0'>О нас</h5>
       <hr className='mt-0' />
       <p>
@@ -31,9 +32,9 @@ const HomePage = () => {
       <ul>
         <li>Всего книг: {stats.booksCount}</li>
         <li>Всего пользователей: {stats.usersCount}</li>
-        <li>Книг занято: {stats.borrowedBooksCount}</li>
-        <li>Из них активных: {stats.activeBorrowedBooksCount}</li>
-        <li>И неактивных: {stats.inactiveBorrowedBooksCount}</li>
+        <li>Книг занято: {stats.borrowsCount}</li>
+        <li>Из них активных: {stats.activeBorrowsCount}</li>
+        <li>И неактивных: {stats.inactiveBorrowsCount}</li>
       </ul>
     </Container>
   );

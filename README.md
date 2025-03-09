@@ -1,7 +1,7 @@
 # Client side for libroll project
 
 TODO:
-- ~~FUCKING~~ LOGIN SYSTEM FOR ADMIN and viewers by default with cool button and float form... ~~shit~~
+- Cleanup
 - NO TABLE modes
 - Group forms and tables
 - Personal pages for users and books

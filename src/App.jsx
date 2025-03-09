@@ -1,21 +1,20 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { Provider } from 'react-redux';
-import store from './store';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Header from './components/Header';
-import HomePage from './components/HomePage';
-import Login from './components/Login';
+import HomePage from './components/Pages/HomePage';
+import Login from './components/Forms/Login';
 
-// Create
-import AddBook from './components/AddBook';
-import AddUser from './components/AddUser';
-import BorrowBook from './components/BorrowBook';
+import AddBook from './components/Forms/AddBook';
+import AddUser from './components/Forms/AddUser';
+import AddBorrow from './components/Forms/AddBorrow';
 
-// Inspect
-import BooksList from './components/BooksList';
-import UsersList from './components/UsersList';
-import BorrowedBooksList from './components/BorrowedBooksList';
+import BooksList from './components/View/BooksList';
+import UsersList from './components/View/UsersList';
+import BorrowsList from './components/View/BorrowsList';
+
+import store from './store';
 
 const App = () => {
   return (
@@ -27,10 +26,10 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/add-book" element={<AddBook />} />
             <Route path="/add-user" element={<AddUser />} />
-            <Route path="/borrow-book" element={<BorrowBook />} />
+            <Route path="/add-borrow" element={<AddBorrow />} />
             <Route path="/books" element={<BooksList />} />
             <Route path="/users" element={<UsersList />} />
-            <Route path="/borrowed-books" element={<BorrowedBooksList />} />
+            <Route path="/borrows" element={<BorrowsList />} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </Container>

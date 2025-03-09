@@ -1,9 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { jwtDecode } from 'jwt-decode';
 
+const token = localStorage.getItem('token');
 const initialState = {
-  token: localStorage.getItem('token') || null,
-  isAuthenticated: !!localStorage.getItem('token'),
+  token: token,
+  isAuthenticated: !!token && !isTokenExpired(token),
 };
+
+function isTokenExpired(token) {
+  if (!token) return true;
+  const decoded = jwtDecode(token);
+  const currentTime = Date.now() / 1000;
+  return decoded.exp < currentTime;
+}
 
 const authSlice = createSlice({
   name: 'auth',
