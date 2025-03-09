@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { Form, Button, Alert, Modal } from 'react-bootstrap';
+
 import api from '../../api/api';
 import { login } from '../../slices/authSlice';
 
-const Login = ({ show, handleClose, onLogin = () => {} }) => {
+const Login = ({ show, handleClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,7 +17,6 @@ const Login = ({ show, handleClose, onLogin = () => {} }) => {
       const response = await api.post('/auth/login', { username, password });
       const { token } = response.data;
       dispatch(login(token));
-      onLogin();
       
       // Clear field
       setUsername('');

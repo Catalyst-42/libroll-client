@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { logout } from '../slices/authSlice';
 import Login from './Login';
 
@@ -34,12 +35,12 @@ const Header = () => {
 
   return (
     <>
-      <Navbar className="bg-body-secondary border rounded">
+      <Navbar className="border rounded" bg='body-secondary'>
         <Container>
           <Nav className="me-auto">
             <Navbar.Brand className='pt-1' style={{ cursor: 'pointer' }}>
               <span onClick={toggleTheme}>
-              {Math.random() < 0.005 ? '⚏' : '⚍'}
+                {Math.random() < 0.005 ? '⚏' : '⚍'}
               </span>
               <Link to="/" className="ms-2 text-decoration-none text-reset">
                 Libroll
@@ -56,7 +57,7 @@ const Header = () => {
                   <NavDropdown.Item as={Link} to="/add-user">
                     Пользователь
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/borrow-book">
+                  <NavDropdown.Item as={Link} to="/add-borrow">
                     Займ
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -74,6 +75,7 @@ const Header = () => {
               </NavDropdown.Item>
             </NavDropdown>
 
+            {/* Login / out button */}
             {!isAuthenticated ? (
               <Button variant="outline-primary" onClick={handleLoginShow}>
                 Войти
@@ -86,6 +88,8 @@ const Header = () => {
           </Nav>
         </Container>
       </Navbar>
+
+      {/* Modals */}
       <Login show={showLogin} handleClose={handleLoginClose} />
     </>
   );

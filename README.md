@@ -1,7 +1,7 @@
 # Client side for libroll project
 
 TODO:
-- Cleanup
+- ~~Cleanup~~
 - NO TABLE modes
 - Group forms and tables
 - Personal pages for users and books

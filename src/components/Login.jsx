@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { Form, Button, Alert, Modal } from 'react-bootstrap';
+
 import api from '../api/api';
 import { login } from '../slices/authSlice';
 

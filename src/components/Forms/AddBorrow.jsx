@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, InputGroup, Row } from 'react-bootstrap';
 
@@ -10,6 +11,7 @@ const AddBorrow = () => {
   const [userId, setUserId] = useState('');
   const [borrowDate, setBorrowDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,35 +28,29 @@ const AddBorrow = () => {
     fetchData();
   }, []);
 
-  // Set today date
+  // Time buttons logic
   const setTodayDate = () => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = moment().format('YYYY-MM-DD');
     setBorrowDate(today);
   };
 
-  // Set return in next week
-  const setReturnDateInAWeek = () => {
-    const today = new Date();
-    const next_week = new Date(
-      today.setDate(today.getDate() + 7)
-    ).toISOString().split('T')[0];
-
+  const setReturnDateInA2Week = () => {
+    const next_week = moment().add(14, 'days').format('YYYY-MM-DD');
     setReturnDate(next_week);
   };
 
-  // Set return in next month
   const setReturnDateInAMonth = () => {
-    const today = new Date();
-    const next_month = new Date(
-      today.setMonth(today.getMonth() + 1)
-    ).toISOString().split('T')[0];
-
+    const next_month = moment().add(1, 'month').format('YYYY-MM-DD');
     setReturnDate(next_month);
   };
 
   // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (moment(returnDate).isBefore(moment(borrowDate))) {
+      setError('Дата возврата должна быть позже даты заёма книги.');
+      return;
+    }
     try {
       await api.post('/borrows', {
         book_id: bookId,
@@ -68,6 +64,7 @@ const AddBorrow = () => {
       setUserId('');
       setBorrowDate('');
       setReturnDate('');
+      setError('');
     } catch (error) {
       console.error('Ошибка при взятии книги:', error);
     }
@@ -76,7 +73,7 @@ const AddBorrow = () => {
   return (
     <Card className='my-4'>
       <Card.Header>
-        Взять книгу
+        Добавить новый займ
       </Card.Header>
       <Card.Body>
 
@@ -138,19 +135,23 @@ const AddBorrow = () => {
 
             <Form.Group as={Col} controlId="returnDate" className='mt-3' style={{ minWidth: '30ch' }}>
               <Form.Label>Дата возврата</Form.Label>
-              <InputGroup>
+              <InputGroup hasValidation>
                 <Form.Control
                   type="date"
                   value={returnDate}
                   onChange={(e) => setReturnDate(e.target.value)}
                   required
+                  isInvalid={!!error}
                 />
-                <Button variant="secondary" onClick={setReturnDateInAWeek}>
-                  Неделя
+                <Button variant="secondary" onClick={setReturnDateInA2Week}>
+                  2 Недели
                 </Button>
                 <Button variant="secondary" onClick={setReturnDateInAMonth}>
                   Месяц
                 </Button>
+                <Form.Control.Feedback type="invalid">
+                  {error}
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Row>
