@@ -1,9 +1,12 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Table, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
+import { Pencil, Archive, Search } from 'react-bootstrap-icons';
+
 import api from '../../api/api';
+import AddBorrow from '../Forms/AddBorrow';
 
 const BorrowsList = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
@@ -11,28 +14,31 @@ const BorrowsList = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [borrowToEdit, setBorrowToEdit] = useState(null);
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const token = useSelector((state) => state.auth.token);
 
   // Fetch all
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const borrowedResponse = await api.get('/borrows');
-        setBorrowedBooks(borrowedResponse.data);
-
-        const booksResponse = await api.get('/books');
-        setBooks(booksResponse.data);
-
-        const usersResponse = await api.get('/users');
-        setUsers(usersResponse.data);
-      } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-      }
-    };
     fetchData();
   }, [token]);
+
+  const fetchData = async () => {
+    try {
+      const borrowedResponse = await api.get('/borrows');
+      setBorrowedBooks(borrowedResponse.data);
+
+      const booksResponse = await api.get('/books');
+      setBooks(booksResponse.data);
+
+      const usersResponse = await api.get('/users');
+      setUsers(usersResponse.data);
+    } catch (error) {
+      console.error('Ошибка при загрузке данных:', error);
+    }
+  };
 
   const handleReturnBook = async (id) => {
     try {
@@ -48,11 +54,23 @@ const BorrowsList = () => {
       );
 
       setBorrowedBooks(updatedBooks);
-      alert('Книга успешно возвращена!');
     } catch (error) {
       console.error('Ошибка при возврате книги:', error);
-      alert('Не удалось вернуть книгу');
     }
+  };
+
+  const handleEdit = (borrow) => {
+    setBorrowToEdit(borrow);
+    setShowModal(true);
+  };
+
+  const handleAdd = () => {
+    setBorrowToEdit(null);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
   };
 
   const getBookTitle = (bookId) => {
@@ -81,36 +99,53 @@ const BorrowsList = () => {
 
   return (
     <>
-      {/* Filters */}
-      <Row className='my-4'>
-        <Form.Group as={Col} controlId="search">
-          <Form.Label>Имя</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Книга или пользователь"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      { /* Filters */ }
+      <Row className='mb-4'>
+        <Form.Group as={Col} sm={12} md={5} controlId="search" className='mt-4'>
+          <InputGroup>
+            <InputGroup.Text>
+              <Search></Search>
+            </InputGroup.Text>
+            <Form.Control
+              type="text"
+              placeholder="Книга или пользователь"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </InputGroup>
         </Form.Group>
-        <Form.Group as={Col} controlId="filterStatus">
-          <Form.Label>Статус</Form.Label>
-          <Form.Control
-            as="select"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <option value="">Все</option>
-            <option value="active">Активные</option>
-            <option value="returned">Возвращенные</option>
-          </Form.Control>
+
+        <Form.Group as={Col} sm={12} md={4} controlId="filterStatus" className='mt-4'>
+          <InputGroup>
+            <InputGroup.Text>
+              <Search></Search>
+            </InputGroup.Text>
+            <Form.Control
+              as="select"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <option value="">Любой статус</option>
+              <option value="active">Активные</option>
+              <option value="returned">Возвращенные</option>
+            </Form.Control>
+          </InputGroup>
         </Form.Group>
+
+        {isAuthenticated &&
+          <Col sm={12} md={3} className="d-flex align-items-end mt-4">
+            <Button className="w-100" onClick={handleAdd}>Создать займ</Button>
+          </Col>
+        }
       </Row>
 
       <hr />
 
       {/* Taken books list */}
       <Card className='my-4'>
-        <Card.Header>Список взятых книг</Card.Header>
+        <Card.Header>
+          Список взятых книг
+        </Card.Header>
         <Card.Body>
           <Table>
             <thead>
@@ -133,13 +168,20 @@ const BorrowsList = () => {
                   <td>{book.status === "returned" ? "Возвращена" : "На руках"}</td>
                   {isAuthenticated &&
                     <td>
+                      <Button
+                        variant="link"
+                        size="sm"
+                        onClick={() => handleEdit(book)}
+                      >
+                        <Pencil></Pencil>
+                      </Button>
                       {book.status === 'active' && (
                         <Button
-                          variant="success"
+                          variant="link"
                           size="sm"
                           onClick={() => handleReturnBook(book.id)}
                         >
-                          Возвращена
+                          <Archive></Archive>
                         </Button>
                       )}
                     </td>
@@ -150,6 +192,7 @@ const BorrowsList = () => {
           </Table>
         </Card.Body>
       </Card>
+      <AddBorrow show={showModal} handleClose={handleClose} borrowToEdit={borrowToEdit} refreshBorrows={fetchData} />
     </>
   );
 };

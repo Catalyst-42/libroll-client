@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
-import { Button, Card, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 import api from '../../api/api';
 
-const AddBook = () => {
+const AddBook = ({ show, handleClose, bookToEdit, refreshBooks }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [totalCount, setTotalCount] = useState('');
   const [error, setError] = useState('');
   const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (bookToEdit) {
+      setTitle(bookToEdit.title);
+      setAuthor(bookToEdit.author);
+      setTotalCount(bookToEdit.total_count);
+    } else {
+      setTitle('');
+      setAuthor('');
+      setTotalCount('');
+    }
+  }, [bookToEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,25 +31,46 @@ const AddBook = () => {
     }
 
     try {
-      await api.post('/books', { title, author, total_count: totalCount }, {
+      if (bookToEdit) {
+        await api.put(`/books/${bookToEdit.id}`, { title, author, total_count: totalCount }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } else {
+        await api.post('/books', { title, author, total_count: totalCount }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }
+      handleClose();
+      refreshBooks();
+    } catch (error) {
+      console.error('Ошибка при сохранении книги:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/books/${bookToEdit.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      alert('Книга успешно добавлена!');
-      setTitle('');
-      setAuthor('');
-      setTotalCount('');
-      setError('');
+      handleClose();
+      refreshBooks();
     } catch (error) {
-      console.error('Ошибка при добавлении книги:', error);
+      console.error('Ошибка при удалении книги:', error);
     }
   };
 
   return (
-    <Card className='my-4'>
-      <Card.Header>Добавить новую книгу</Card.Header>
-      <Card.Body>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{bookToEdit ? 'Редактировать книгу' : 'Добавить новую книгу'}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title" className='mb-3'>
             <Form.Label>Название</Form.Label>
@@ -70,12 +103,17 @@ const AddBook = () => {
               {error}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button type="submit">
-            Добавить
+          <Button variant="primary" type="submit">
+            {bookToEdit ? 'Обновить' : 'Добавить'}
           </Button>
+          {bookToEdit && (
+            <Button variant="danger" onClick={handleDelete} className="ms-2">
+              Удалить
+            </Button>
+          )}
         </Form>
-      </Card.Body>
-    </Card>
+      </Modal.Body>
+    </Modal>
   );
 };
 

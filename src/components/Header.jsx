@@ -27,7 +27,6 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/');
   };
 
   const handleLoginClose = () => setShowLogin(false);
@@ -48,22 +47,7 @@ const Header = () => {
             </Navbar.Brand>
           </Nav>
           <Nav>
-            {isAuthenticated && (
-              <>
-                <NavDropdown title="Добавление" id="create-dropdown">
-                  <NavDropdown.Item as={Link} to="/add-book">
-                    Книга
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/add-user">
-                    Пользователь
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/add-borrow">
-                    Займ
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </>
-            )}
-            <NavDropdown title="Просмотр" id="view-dropdown">
+            <NavDropdown title="Таблицы" id="view-dropdown">
               <NavDropdown.Item as={Link} to="/books">
                 Книги
               </NavDropdown.Item>

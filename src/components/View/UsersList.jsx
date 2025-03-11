@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Card, Form, Row, Col, Container, Button } from 'react-bootstrap';
+import { Card, Form, Row, Col, Container, Button, InputGroup } from 'react-bootstrap';
+
+import { Pencil, Search } from 'react-bootstrap-icons';
 
 import api from '../../api/api';
 import AddUser from '../Forms/AddUser';
@@ -49,13 +51,18 @@ const UsersList = () => {
     <>
       <Row className='my-4'>
         <Form.Group as={Col}>
-          <Form.Label>Фильтр</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Имя или фамилия"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          {/* <Form.Label>Фильтр</Form.Label> */}
+          <InputGroup>
+            <InputGroup.Text>
+              <Search></Search>
+            </InputGroup.Text>
+            <Form.Control
+              type="text"
+              placeholder="Имя или фамилия"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </InputGroup>
         </Form.Group>
 
         {isAuthenticated &&
@@ -73,11 +80,11 @@ const UsersList = () => {
           {filteredUsers.map((user) => (
             <Col key={user.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
               <Card>
-                <Card.Body className='py-0 px-2 d-flex justify-content-between align-items-center'>
+                <Card.Body className='m-0 d-flex justify-content-between align-items-center'>
                   <span>{user.first_name} {user.last_name}</span>
                   {isAuthenticated &&
                     <Button variant="link" onClick={() => handleEdit(user)}>
-                      E
+                      <Pencil></Pencil>
                     </Button>
                   }
                 </Card.Body>
