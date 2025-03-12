@@ -105,7 +105,7 @@ const AddBorrow = ({ show, handleClose, borrowToEdit, refreshBorrows }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{borrowToEdit ? 'Редактировать займ' : 'Добавить новый займ'}</Modal.Title>
       </Modal.Header>
@@ -191,9 +191,10 @@ const AddBorrow = ({ show, handleClose, borrowToEdit, refreshBorrows }) => {
           {/* Status */}
           {borrowToEdit &&
             <Form.Group controlId="status" className='mt-3'>
-              <Form.Label>Состояние займа</Form.Label>
-              <Form.Control
-                as="select"
+              <Form.Label>
+                Состояние займа
+              </Form.Label>
+              <Form.Select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
                 required
@@ -201,7 +202,7 @@ const AddBorrow = ({ show, handleClose, borrowToEdit, refreshBorrows }) => {
                 <option value="active">Активный</option>
                 <option value="returned">Возвращён</option>
                 <option value="lost">Потерян</option>
-              </Form.Control>
+              </Form.Select>
             </Form.Group>
           }
 

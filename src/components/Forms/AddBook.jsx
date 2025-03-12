@@ -66,7 +66,7 @@ const AddBook = ({ show, handleClose, bookToEdit, refreshBooks }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{bookToEdit ? 'Редактировать книгу' : 'Добавить новую книгу'}</Modal.Title>
       </Modal.Header>

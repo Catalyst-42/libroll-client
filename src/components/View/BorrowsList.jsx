@@ -1,9 +1,9 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Row, Table, InputGroup } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Table, Stack, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
-import { Pencil, Archive, Search } from 'react-bootstrap-icons';
+import { Pencil, Archive, Search, CheckLg, CalendarPlus, CalendarCheck, Person, Book, QuestionLg } from 'react-bootstrap-icons';
 
 import api from '../../api/api';
 import AddBorrow from '../Forms/AddBorrow';
@@ -99,8 +99,9 @@ const BorrowsList = () => {
 
   return (
     <>
-      { /* Filters */ }
+      { /* Filters */}
       <Row className='mb-4'>
+        {/* Book or user name */}
         <Form.Group as={Col} sm={12} md={5} controlId="search" className='mt-4'>
           <InputGroup>
             <InputGroup.Text>
@@ -115,20 +116,21 @@ const BorrowsList = () => {
           </InputGroup>
         </Form.Group>
 
+        {/* Status */}
         <Form.Group as={Col} sm={12} md={4} controlId="filterStatus" className='mt-4'>
           <InputGroup>
             <InputGroup.Text>
               <Search></Search>
             </InputGroup.Text>
-            <Form.Control
-              as="select"
+            <Form.Select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
               <option value="">Любой статус</option>
               <option value="active">Активные</option>
               <option value="returned">Возвращенные</option>
-            </Form.Control>
+              <option value="lost">Потерянные</option>
+            </Form.Select>
           </InputGroup>
         </Form.Group>
 
@@ -142,56 +144,109 @@ const BorrowsList = () => {
       <hr />
 
       {/* Taken books list */}
-      <Card className='my-4'>
-        <Card.Header>
-          Список взятых книг
-        </Card.Header>
-        <Card.Body>
-          <Table>
-            <thead>
-              <tr>
-                <th>Книга</th>
-                <th>Пользователь</th>
-                <th>Дата взятия</th>
-                <th>Дата возврата</th>
-                <th>Статус</th>
-                {isAuthenticated && <th>Действия</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBooks.map((book, index) => (
-                <tr key={book.id}>
-                  <td>{getBookTitle(book.book_id)}</td>
-                  <td>{getUserName(book.user_id)}</td>
-                  <td>{formatDate(book.borrow_date)}</td>
-                  <td>{formatDate(book.return_date)}</td>
-                  <td>{book.status === "returned" ? "Возвращена" : "На руках"}</td>
+      <Row className='my-4'>
+        {filteredBooks.map((book) => (
+          <Col key={book.id} sm={12} md={6} lg={6} className='mb-4'>
+            <Card>
+              <Card.Body className='pt-2'>
+                <Stack direction='horizontal' gap={2}>
+                  <Card.Text className='mb-0'>
+                    {getBookTitle(book.book_id)}
+                  </Card.Text>
+
+                  <Card.Text className='mb-0 text-secondary'>
+                    #{book.id}
+                  </Card.Text>
+
                   {isAuthenticated &&
-                    <td>
+                    <Card.Text className='ms-auto'>
                       <Button
                         variant="link"
                         size="sm"
                         onClick={() => handleEdit(book)}
                       >
-                        <Pencil></Pencil>
+                        <Pencil className='align-baseline' />
                       </Button>
-                      {book.status === 'active' && (
+                      {book.status === 'active' ? (
                         <Button
                           variant="link"
                           size="sm"
                           onClick={() => handleReturnBook(book.id)}
                         >
-                          <Archive></Archive>
+                          <Archive className='align-baseline' />
                         </Button>
+                      ) : book.status === 'lost' ? (
+                        <QuestionLg className='text-danger align-baseline mx-2' />
+                      ) : (
+                        <CheckLg className='text-success align-baseline mx-2' />
                       )}
-                    </td>
+                    </Card.Text>
                   }
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Card.Body>
-      </Card>
+                </Stack>
+
+                <hr className='mt-1' />
+
+                <Row>
+                  <Col xs={1}>
+                    <Book style={{marginBottom: '3px'}}/>
+                  </Col>
+                  <Col className="text-secondary">
+                    Книга:
+                  </Col>
+                  <Col>
+                    {getBookTitle(book.book_id)}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={1}>
+                    <Person style={{marginBottom: '3px'}}/>
+                  </Col>
+                  <Col className="text-secondary">
+                    Заёмщик:
+                  </Col>
+                  <Col>
+                    {getUserName(book.user_id)}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={1}>
+                    <CalendarPlus style={{marginBottom: '3px'}}/>
+                  </Col>
+                  <Col className="text-secondary">
+                    Заём:
+                  </Col>
+                  <Col>
+                    {formatDate(book.borrow_date)}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={1}>
+                    <CalendarCheck style={{marginBottom: '3px'}}/>
+                  </Col>
+                  <Col className="text-secondary">
+                    Возврат:
+                  </Col>
+                  <Col>
+                    {book.return_date ? formatDate(book.return_date) : 'Не возвращена'}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={1}>
+                    <Archive style={{marginBottom: '3px'}}/>
+                  </Col>
+                  <Col className="text-secondary">
+                    Статус:
+                  </Col>
+                  <Col>
+                    {book.status === 'active' ? 'Активный' : book.status === 'lost' ? 'Потерян' : 'Возвращён'}
+                  </Col>
+                </Row>
+
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
       <AddBorrow show={showModal} handleClose={handleClose} borrowToEdit={borrowToEdit} refreshBorrows={fetchData} />
     </>
   );

@@ -59,7 +59,7 @@ const AddUser = ({ show, handleClose, userToEdit, refreshUsers }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{userToEdit ? 'Редактировать пользователя' : 'Добавить нового пользователя'}</Modal.Title>
       </Modal.Header>

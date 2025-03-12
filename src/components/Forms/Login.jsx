@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import api from '../../api/api';
 import { login } from '../../slices/authSlice';
 
-const Login = ({ show, handleClose }) => {
+const Login = ({ show, handleClose, onLogin = () => {} }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -17,6 +17,7 @@ const Login = ({ show, handleClose }) => {
       const response = await api.post('/auth/login', { username, password });
       const { token } = response.data;
       dispatch(login(token));
+      onLogin();
       
       // Clear field
       setUsername('');
@@ -30,7 +31,7 @@ const Login = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Авторизация</Modal.Title>
       </Modal.Header>
