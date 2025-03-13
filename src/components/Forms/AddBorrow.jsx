@@ -36,12 +36,6 @@ const AddBorrow = ({ show, handleClose, borrowToEdit, refreshBorrows }) => {
       setBorrowDate(borrowToEdit.borrow_date);
       setReturnDate(borrowToEdit.return_date);
       setStatus(borrowToEdit.status);
-    } else {
-      setBookId('');
-      setUserId('');
-      setBorrowDate('');
-      setReturnDate('');
-      setStatus('active');
     }
   }, [borrowToEdit]);
 
@@ -85,6 +79,12 @@ const AddBorrow = ({ show, handleClose, borrowToEdit, refreshBorrows }) => {
           return_date: returnDate,
           status: status,
         });
+
+        setBookId('');
+        setUserId('');
+        setBorrowDate('');
+        setReturnDate('');
+        setStatus('active');
       }
 
       handleClose();

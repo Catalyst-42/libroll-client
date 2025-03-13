@@ -12,9 +12,6 @@ const AddUser = ({ show, handleClose, userToEdit, refreshUsers }) => {
     if (userToEdit) {
       setFirstName(userToEdit.first_name);
       setLastName(userToEdit.last_name);
-    } else {
-      setFirstName('');
-      setLastName('');
     }
   }, [userToEdit]);
 
@@ -35,6 +32,8 @@ const AddUser = ({ show, handleClose, userToEdit, refreshUsers }) => {
           }
         });
 
+        setFirstName('');
+        setLastName('');
       }
       handleClose();
       refreshUsers();

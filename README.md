@@ -3,7 +3,7 @@
 TODO:
 - [x] Remove all old tasks cuz them was too dumb
 - [x] Modal forms for all operation types
-- [ ] Icons for actions and better frontend UI
+- [x] Icons for actions and better frontend UI
 - [ ] Show message if database is down
 
 - [ ] ? User page with them borrow history

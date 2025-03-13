@@ -66,7 +66,7 @@ const UsersList = () => {
 
         {isAuthenticated &&
           <Col xs="auto" className="d-flex align-items-end">
-            <Button onClick={handleAdd}>Добавить пользователя</Button>
+            <Button onClick={handleAdd}>Новый пользователя</Button>
           </Col>
         }
       </Row>

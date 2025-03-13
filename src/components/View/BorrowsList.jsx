@@ -101,6 +101,7 @@ const BorrowsList = () => {
     <>
       { /* Filters */}
       <Row className='mb-4'>
+
         {/* Book or user name */}
         <Form.Group as={Col} sm={12} md={5} controlId="search" className='mt-4'>
           <InputGroup>
@@ -109,7 +110,7 @@ const BorrowsList = () => {
             </InputGroup.Text>
             <Form.Control
               type="text"
-              placeholder="Книга или пользователь"
+              placeholder="Книга или заёмщик"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -117,7 +118,7 @@ const BorrowsList = () => {
         </Form.Group>
 
         {/* Status */}
-        <Form.Group as={Col} sm={12} md={4} controlId="filterStatus" className='mt-4'>
+        <Form.Group as={Col} sm={12} md={5} controlId="filterStatus" className='mt-4'>
           <InputGroup>
             <InputGroup.Text>
               <Search></Search>
@@ -135,8 +136,8 @@ const BorrowsList = () => {
         </Form.Group>
 
         {isAuthenticated &&
-          <Col sm={12} md={3} className="d-flex align-items-end mt-4">
-            <Button className="w-100" onClick={handleAdd}>Создать займ</Button>
+          <Col sm={12} md={2} className="d-flex align-items-end mt-4">
+            <Button className="w-100" onClick={handleAdd}>Новый займ</Button>
           </Col>
         }
       </Row>
@@ -150,7 +151,7 @@ const BorrowsList = () => {
             <Card>
               <Card.Body className='pt-2'>
                 <Stack direction='horizontal' gap={2}>
-                  <Card.Text className='mb-0'>
+                  <Card.Text className='mb-0 py-1'>
                     {getBookTitle(book.book_id)}
                   </Card.Text>
 
@@ -163,22 +164,36 @@ const BorrowsList = () => {
                       <Button
                         variant="link"
                         size="sm"
+                        className='text-warning'
                         onClick={() => handleEdit(book)}
                       >
-                        <Pencil className='align-baseline' />
+                        <Pencil style={{ marginBottom: '3px' }}/>
                       </Button>
                       {book.status === 'active' ? (
                         <Button
                           variant="link"
                           size="sm"
+                          className='text-warning'
                           onClick={() => handleReturnBook(book.id)}
                         >
-                          <Archive className='align-baseline' />
+                          <Archive style={{ marginBottom: '3px' }}/>
                         </Button>
                       ) : book.status === 'lost' ? (
-                        <QuestionLg className='text-danger align-baseline mx-2' />
+                        <Button
+                          variant='link'
+                          size='sm'
+                          className='text-danger'
+                        >
+                          <QuestionLg style={{ marginBottom: '3px' }}/>
+                        </Button>
                       ) : (
-                        <CheckLg className='text-success align-baseline mx-2' />
+                        <Button
+                          variant='link'
+                          size='sm'
+                          className='text-success'
+                        >
+                          <CheckLg style={{ marginBottom: '3px' }}/>
+                        </Button>
                       )}
                     </Card.Text>
                   }
@@ -188,9 +203,9 @@ const BorrowsList = () => {
 
                 <Row>
                   <Col xs={1}>
-                    <Book style={{marginBottom: '3px'}}/>
+                    <Book style={{ marginBottom: '3px' }} />
                   </Col>
-                  <Col className="text-secondary">
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Книга:
                   </Col>
                   <Col>
@@ -199,9 +214,9 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <Person style={{marginBottom: '3px'}}/>
+                    <Person style={{ marginBottom: '3px' }} />
                   </Col>
-                  <Col className="text-secondary">
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Заёмщик:
                   </Col>
                   <Col>
@@ -210,9 +225,9 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <CalendarPlus style={{marginBottom: '3px'}}/>
+                    <CalendarPlus style={{ marginBottom: '3px' }} />
                   </Col>
-                  <Col className="text-secondary">
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Заём:
                   </Col>
                   <Col>
@@ -221,9 +236,9 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <CalendarCheck style={{marginBottom: '3px'}}/>
+                    <CalendarCheck style={{ marginBottom: '3px' }} />
                   </Col>
-                  <Col className="text-secondary">
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Возврат:
                   </Col>
                   <Col>
@@ -232,9 +247,9 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <Archive style={{marginBottom: '3px'}}/>
+                    <Archive style={{ marginBottom: '3px' }} />
                   </Col>
-                  <Col className="text-secondary">
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Статус:
                   </Col>
                   <Col>
