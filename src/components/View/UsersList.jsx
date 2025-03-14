@@ -71,7 +71,7 @@ const UsersList = () => {
         }
       </Row>
 
-      <hr />
+      <hr/>
 
       {/* Users list */}
       <Container className='my-4 px-0'>
@@ -81,8 +81,10 @@ const UsersList = () => {
               <Card>
                 <Card.Body className='py-1'>
                   <Stack direction="horizontal" gap={3}>
-                    <Person size={24} />
-                    <div className='vr'></div>
+                    <Person size={24} className="text-secondary" />
+
+                    <div className='vr my-2'></div>
+
                     <div className='flex-grow-1'>
                       <Card.Text className='mb-0'>
                         {user.first_name} {user.last_name}

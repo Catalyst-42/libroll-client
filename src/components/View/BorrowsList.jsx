@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Row, Table, Stack, InputGroup } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Stack, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 import { Pencil, Archive, Search, CheckLg, CalendarPlus, CalendarCheck, Person, Book, QuestionLg } from 'react-bootstrap-icons';
@@ -203,7 +203,7 @@ const BorrowsList = () => {
 
                 <Row>
                   <Col xs={1}>
-                    <Book style={{ marginBottom: '3px' }} />
+                    <Book className="text-secondary" style={{ marginBottom: '3px' }} />
                   </Col>
                   <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Книга:
@@ -214,7 +214,7 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <Person style={{ marginBottom: '3px' }} />
+                    <Person className="text-secondary" style={{ marginBottom: '3px' }} />
                   </Col>
                   <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Заёмщик:
@@ -225,7 +225,7 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <CalendarPlus style={{ marginBottom: '3px' }} />
+                    <CalendarPlus className="text-secondary" style={{ marginBottom: '3px' }} />
                   </Col>
                   <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Заём:
@@ -236,7 +236,7 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <CalendarCheck style={{ marginBottom: '3px' }} />
+                    <CalendarCheck className="text-secondary" style={{ marginBottom: '3px' }} />
                   </Col>
                   <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Возврат:
@@ -247,7 +247,7 @@ const BorrowsList = () => {
                 </Row>
                 <Row>
                   <Col xs={1}>
-                    <Archive style={{ marginBottom: '3px' }} />
+                    <Archive className="text-secondary" style={{ marginBottom: '3px' }} />
                   </Col>
                   <Col xs="auto" className="text-secondary" style={{ minWidth: '100px' }}>
                     Статус:

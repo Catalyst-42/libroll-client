@@ -1,4 +1,4 @@
-import { Container } from 'react-bootstrap';
+import { Container, Alert } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -15,8 +15,25 @@ import UsersList from './components/View/UsersList';
 import BorrowsList from './components/View/BorrowsList';
 
 import store from './store';
+import { useEffect, useState } from 'react';
+import api from './api/api';
 
 const App = () => {
+  const [dbError, setDbError] = useState(false);
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        await api.get('/health');
+        setDbError(false);
+      } catch (error) {
+        setDbError(error);
+      }
+    };
+
+    checkHealth();
+  }, []);
+
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -32,6 +49,15 @@ const App = () => {
             <Route path="/borrows" element={<BorrowsList />} />
             <Route path="/login" element={<Login />} />
           </Routes>
+          {dbError && (
+            <Alert variant="danger">
+              <Alert.Heading>{dbError.message}.</Alert.Heading>
+              <p className='mb-0'>
+                Мы не можем подключиться к базе данных в данный момент. <br />
+                Пожалуйста, попробуйте снова позже.
+              </p>
+            </Alert>
+          )}
         </Container>
       </BrowserRouter>
     </Provider>
