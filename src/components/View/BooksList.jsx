@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, Button, Form, Row, Col, InputGroup, Stack } from 'react-bootstrap';
+import { Card, Button, Form, Row, Col, InputGroup, Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 import { Pencil, Search, Person, List, Quote } from 'react-bootstrap-icons';
@@ -104,7 +104,7 @@ const BooksList = () => {
                 <hr className='mt-1' />
 
                 <Row>
-                  <Col xs="auto" className="text-secondary" style={{ minWidth: '120px' }}>
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '125px' }}>
                     <Quote style={{ marginBottom: '3px' }}/> Название:
                   </Col>
                   <Col>
@@ -112,7 +112,7 @@ const BooksList = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="auto" className="text-secondary" style={{ minWidth: '120px' }}>
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '125px' }}>
                     <Person style={{ marginBottom: '3px' }}/> Автор:
                   </Col>
                   <Col>
@@ -120,7 +120,7 @@ const BooksList = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="auto" className="text-secondary" style={{ minWidth: '120px' }}>
+                  <Col xs="auto" className="text-secondary" style={{ minWidth: '125px' }}>
                     <List style={{ marginBottom: '3px' }}/> Книг:
                   </Col>
                   <Col className='text-left'>

@@ -33,9 +33,15 @@ const AddBorrow = ({ show, handleClose, borrowToEdit, refreshBorrows }) => {
     if (borrowToEdit) {
       setBookId(borrowToEdit.book_id);
       setUserId(borrowToEdit.user_id);
-      setBorrowDate(borrowToEdit.borrow_date);
-      setReturnDate(borrowToEdit.return_date);
+      setBorrowDate(moment(borrowToEdit.borrow_date).format('YYYY-MM-DD'));
+      setReturnDate(borrowToEdit.return_date ? moment(borrowToEdit.return_date).format('YYYY-MM-DD') : '');
       setStatus(borrowToEdit.status);
+    } else {
+      setBookId('');
+      setUserId('');
+      setBorrowDate('');
+      setReturnDate('');
+      setStatus('active');
     }
   }, [borrowToEdit]);
 

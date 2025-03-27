@@ -16,6 +16,10 @@ const AddBook = ({ show, handleClose, bookToEdit, refreshBooks }) => {
       setTitle(bookToEdit.title);
       setAuthor(bookToEdit.author);
       setTotalCount(bookToEdit.total_count);
+    } else {
+      setTitle('');
+      setAuthor('');
+      setTotalCount('');
     }
   }, [bookToEdit]);
 
