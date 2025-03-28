@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { logout } from '../slices/authSlice';
 import Login from './Forms/Login';
@@ -13,7 +13,6 @@ const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.setAttribute('data-bs-theme', theme);

@@ -34,7 +34,7 @@ const HomePage = () => {
         <Alert variant="danger">
           <Alert.Heading>{dbError.message}.</Alert.Heading>
           <p className='mb-0'>
-            Мы не можем подключиться к базе данных в данный момент. <br />
+            Мы не можем подключиться к базе данных в сейчас. <br />
             Пожалуйста, попробуйте зайти снова позже.
           </p>
         </Alert>
