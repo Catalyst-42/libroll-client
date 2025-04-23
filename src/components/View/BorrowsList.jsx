@@ -167,7 +167,7 @@ const BorrowsList = () => {
                         className='text-warning'
                         onClick={() => handleEdit(book)}
                       >
-                        <Pencil style={{ marginBottom: '3px' }}/>
+                        <Pencil style={{ marginBottom: '3px' }} title='Редактировать'/>
                       </Button>
                       {book.status === 'active' ? (
                         <Button
@@ -176,7 +176,7 @@ const BorrowsList = () => {
                           className='text-warning'
                           onClick={() => handleReturnBook(book.id)}
                         >
-                          <Archive style={{ marginBottom: '3px' }}/>
+                          <Archive style={{ marginBottom: '3px' }} title='Отметить возвращённой'/>
                         </Button>
                       ) : book.status === 'lost' ? (
                         <Button
@@ -184,7 +184,7 @@ const BorrowsList = () => {
                           size='sm'
                           className='text-danger'
                         >
-                          <QuestionLg style={{ marginBottom: '3px' }}/>
+                          <QuestionLg style={{ marginBottom: '3px' }} title='Потеряна'/>
                         </Button>
                       ) : (
                         <Button
@@ -192,7 +192,7 @@ const BorrowsList = () => {
                           size='sm'
                           className='text-success'
                         >
-                          <CheckLg style={{ marginBottom: '3px' }}/>
+                          <CheckLg style={{ marginBottom: '3px' }} title='Возвращена'/>
                         </Button>
                       )}
                     </Card.Text>

@@ -95,7 +95,7 @@ const BooksList = () => {
                         className='text-warning'
                         onClick={() => handleEdit(book)}
                       >
-                        <Pencil style={{ marginBottom: '3px' }}/>
+                        <Pencil style={{ marginBottom: '3px' }} title='Редактировать'/>
                       </Button>
                     </Card.Text>
                   }

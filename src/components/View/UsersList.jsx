@@ -98,7 +98,7 @@ const UsersList = () => {
                         onClick={() => handleEdit(user)}
                         className="text-warning btn-sm py-0"
                       >
-                        <Pencil />
+                        <Pencil title='Редактировать'/>
                       </Button>
                     }
                   </Stack>
