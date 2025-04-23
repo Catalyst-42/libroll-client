@@ -103,7 +103,7 @@ const BorrowsList = () => {
       <Row className='mb-4'>
 
         {/* Book or user name */}
-        <Form.Group as={Col} sm={12} md={5} controlId="search" className='mt-4'>
+        <Form.Group as={Col} sm={12} md={(isAuthenticated && 5) || 6} controlId="search" className='mt-4'>
           <InputGroup>
             <InputGroup.Text>
               <Search></Search>
@@ -118,7 +118,7 @@ const BorrowsList = () => {
         </Form.Group>
 
         {/* Status */}
-        <Form.Group as={Col} sm={12} md={5} controlId="filterStatus" className='mt-4'>
+        <Form.Group as={Col} sm={12} md={(isAuthenticated && 5) || 6} controlId="filterStatus" className='mt-4'>
           <InputGroup>
             <InputGroup.Text>
               <Search></Search>
