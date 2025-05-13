@@ -96,9 +96,16 @@ const BorrowsList = () => {
     threshold: 0.4,
   });
 
-  const filteredBooks = searchTerm
-    ? fuse.search(searchTerm).map((result) => result.item)
-    : borrowedBooks;
+  const filteredBooks = borrowedBooks.filter((book) => {
+    const bookTitle = getBookTitle(book.book_id).toLowerCase();
+    const userName = getUserName(book.user_id).toLowerCase();
+    const searchTermLower = searchTerm.toLowerCase();
+
+    return (
+      (bookTitle.includes(searchTermLower) || userName.includes(searchTermLower)) &&
+      (filterStatus ? book.status === filterStatus : true)
+    );
+  });
 
   return (
     <>
