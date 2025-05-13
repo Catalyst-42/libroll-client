@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Row, Col, InputGroup, Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import Fuse from 'fuse.js';
 
 import { Pencil, Search, Person, List, Quote } from 'react-bootstrap-icons';
 
@@ -27,10 +28,14 @@ const BooksList = () => {
     }
   };
 
-  const filteredBooks = books.filter((book) => {
-    return book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchTerm.toLowerCase());
+  const fuse = new Fuse(books, {
+    keys: ['title', 'author'],
+    threshold: 0.4,
   });
+
+  const filteredBooks = searchTerm
+    ? fuse.search(searchTerm).map((result) => result.item)
+    : books;
 
   const handleEdit = (book) => {
     setBookToEdit(book);

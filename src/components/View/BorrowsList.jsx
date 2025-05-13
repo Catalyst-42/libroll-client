@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Row, Stack, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import Fuse from 'fuse.js';
 
 import { Pencil, Archive, Search, CheckLg, CalendarPlus, CalendarCheck, Person, Book, QuestionLg } from 'react-bootstrap-icons';
 
@@ -87,15 +88,17 @@ const BorrowsList = () => {
     return moment(dateString).format('DD.MM.YYYY');
   };
 
-  const filteredBooks = borrowedBooks.filter((book) => {
-    const bookTitle = getBookTitle(book.book_id).toLowerCase();
-    const userName = getUserName(book.user_id).toLowerCase();
-    const searchTermLower = searchTerm.toLowerCase();
-    return (
-      (bookTitle.includes(searchTermLower) || userName.includes(searchTermLower)) &&
-      (filterStatus ? book.status === filterStatus : true)
-    );
+  const fuse = new Fuse(borrowedBooks, {
+    keys: [
+      { name: 'book_id', getFn: (borrow) => getBookTitle(borrow.book_id) },
+      { name: 'user_id', getFn: (borrow) => getUserName(borrow.user_id) }
+    ],
+    threshold: 0.4,
   });
+
+  const filteredBooks = searchTerm
+    ? fuse.search(searchTerm).map((result) => result.item)
+    : borrowedBooks;
 
   return (
     <>

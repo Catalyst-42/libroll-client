@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Card, Form, Row, Col, Container, Button, InputGroup, Stack } from 'react-bootstrap';
 
 import { Pencil, Search, Person } from 'react-bootstrap-icons';
+import Fuse from 'fuse.js';
 
 import api from '../../api/api';
 import AddUser from '../Forms/AddUser';
@@ -28,10 +29,14 @@ const UsersList = () => {
     }
   };
 
-  const filteredUsers = users.filter((user) => {
-    const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
-    return fullName.includes(searchTerm.toLowerCase());
+  const fuse = new Fuse(users, {
+    keys: ['first_name', 'last_name'],
+    threshold: 0.4,
   });
+
+  const filteredUsers = searchTerm
+    ? fuse.search(searchTerm).map((result) => result.item)
+    : users;
 
   const handleEdit = (user) => {
     setUserToEdit(user);
