@@ -22,6 +22,7 @@ const Login = ({ show, handleClose, onLogin = () => {} }) => {
       // Clear field
       setUsername('');
       setPassword('');
+      setError('');
 
       handleClose();
     } catch (error) {
@@ -30,8 +31,15 @@ const Login = ({ show, handleClose, onLogin = () => {} }) => {
     }
   };
 
+  const handleModalClose = () => {
+    setUsername('');
+    setPassword('');
+    setError('');
+    handleClose();
+  };
+
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleModalClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Авторизация</Modal.Title>
       </Modal.Header>
